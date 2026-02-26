@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -w -p tsconfig.json",
+    "start": "node server.js",
     "serve": "node server.js",
     "serve:static": "python3 -m http.server 8000"
   },

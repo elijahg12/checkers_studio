@@ -55,6 +55,7 @@ npm run build
 ## Deployment Checklist
 
 - `npm run build` проходит без ошибок.
+- `npm start` запускает backend на production.
 - В head добавлены базовые SEO-мета-теги (description, og, twitter, canonical, JSON-LD).
 - Для production backend задайте переменные:
   - `SITE_URL=https://your-real-domain.com`
@@ -102,3 +103,14 @@ npm run build
   - `?token=<ADMIN_TOKEN>` или
   - заголовком `x-admin-token: <ADMIN_TOKEN>` или
   - `Authorization: Bearer <ADMIN_TOKEN>`.
+
+## GitHub Publish
+
+1. Создайте репозиторий на GitHub.
+2. Добавьте remote:
+   - `git remote add origin git@github.com:<username>/<repo>.git`
+   - или `git remote add origin https://github.com/<username>/<repo>.git`
+3. Отправьте ветку:
+   - `git push -u origin main`
+
+Для деплоя задайте переменные окружения из `.env.example`.
