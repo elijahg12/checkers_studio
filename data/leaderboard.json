@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1772139277079-436182",
+    "name": "TestUser",
+    "score": 300,
+    "result": "win",
+    "difficulty": "medium",
+    "variant": "classic",
+    "elapsedMs": 180000,
+    "hintsUsed": 0,
+    "moveCount": 14,
+    "playedAt": 1772139277079
+  }
+]

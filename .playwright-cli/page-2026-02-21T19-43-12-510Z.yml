@@ -1,0 +1,120 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - heading "Симулятор шашек" [level=1] [ref=e4]
+    - paragraph [ref=e5]: "Шашки: человек vs компьютер, человек vs человек, редактор позиции, таймер и подсказки"
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - generic [ref=e8]: Режим игры
+        - group "Режим игры" [ref=e9]:
+          - button "Режим игры Режим игры" [ref=e10] [cursor=pointer]: Против компьютера
+          - button "Человек vs человек" [ref=e11] [cursor=pointer]
+      - generic [ref=e12]:
+        - generic [ref=e13]: Цвет снизу
+        - group "Цвет снизу" [ref=e14]:
+          - button "Цвет снизу Цвет снизу" [ref=e15] [cursor=pointer]: Белые снизу
+          - button "Чёрные снизу" [ref=e16] [cursor=pointer]
+      - generic [ref=e17]:
+        - generic [ref=e18]: Сложность
+        - combobox "Сложность" [ref=e19]:
+          - option "Лёгкая"
+          - option "Средняя" [selected]
+          - option "Сложная"
+      - generic [ref=e20]:
+        - generic [ref=e21]: Таймер
+        - combobox "Таймер" [ref=e22]:
+          - option "3:00"
+          - option "5:00"
+          - option "10:00" [selected]
+          - option "15:00"
+      - button "Новая стандартная партия" [ref=e24] [cursor=pointer]
+      - 'button "Режим подсказки: выкл" [ref=e26] [cursor=pointer]':
+        - generic [ref=e27]: "Режим подсказки: выкл"
+      - 'button "Редактор позиции: выкл" [ref=e31] [cursor=pointer]':
+        - generic [ref=e32]: "Редактор позиции: выкл"
+  - main [ref=e35]:
+    - generic [ref=e36]:
+      - generic [ref=e37]:
+        - generic [ref=e38]: Белые 10:00
+        - generic [ref=e39]: Чёрные 10:00
+      - generic [ref=e40]: Нажмите «Новая стандартная партия», чтобы начать игру.
+      - generic "Доска шашек" [ref=e42]:
+        - button "8" [disabled] [ref=e43]:
+          - generic: "8"
+        - button [ref=e44] [cursor=pointer]
+        - button [disabled] [ref=e46]
+        - button [ref=e47] [cursor=pointer]
+        - button [disabled] [ref=e49]
+        - button [ref=e50] [cursor=pointer]
+        - button [disabled] [ref=e52]
+        - button [ref=e53] [cursor=pointer]
+        - button "7" [ref=e55] [cursor=pointer]:
+          - generic: "7"
+        - button [disabled] [ref=e57]
+        - button [ref=e58] [cursor=pointer]
+        - button [disabled] [ref=e60]
+        - button [ref=e61] [cursor=pointer]
+        - button [disabled] [ref=e63]
+        - button [ref=e64] [cursor=pointer]
+        - button [disabled] [ref=e66]
+        - button "6" [disabled] [ref=e67]:
+          - generic: "6"
+        - button [ref=e68] [cursor=pointer]
+        - button [disabled] [ref=e70]
+        - button [ref=e71] [cursor=pointer]
+        - button [disabled] [ref=e73]
+        - button [ref=e74] [cursor=pointer]
+        - button [disabled] [ref=e76]
+        - button [ref=e77] [cursor=pointer]
+        - button "5" [ref=e79] [cursor=pointer]:
+          - generic: "5"
+        - button [disabled] [ref=e80]
+        - button [ref=e81] [cursor=pointer]
+        - button [disabled] [ref=e82]
+        - button [ref=e83] [cursor=pointer]
+        - button [disabled] [ref=e84]
+        - button [ref=e85] [cursor=pointer]
+        - button [disabled] [ref=e86]
+        - button "4" [disabled] [ref=e87]:
+          - generic: "4"
+        - button [ref=e88] [cursor=pointer]
+        - button [disabled] [ref=e89]
+        - button [ref=e90] [cursor=pointer]
+        - button [disabled] [ref=e91]
+        - button [ref=e92] [cursor=pointer]
+        - button [disabled] [ref=e93]
+        - button [ref=e94] [cursor=pointer]
+        - button "3" [ref=e95] [cursor=pointer]:
+          - generic: "3"
+        - button [disabled] [ref=e97]
+        - button [ref=e98] [cursor=pointer]
+        - button [disabled] [ref=e100]
+        - button [ref=e101] [cursor=pointer]
+        - button [disabled] [ref=e103]
+        - button [ref=e104] [cursor=pointer]
+        - button [disabled] [ref=e106]
+        - button "2" [disabled] [ref=e107]:
+          - generic: "2"
+        - button [ref=e108] [cursor=pointer]
+        - button [disabled] [ref=e110]
+        - button [ref=e111] [cursor=pointer]
+        - button [disabled] [ref=e113]
+        - button [ref=e114] [cursor=pointer]
+        - button [disabled] [ref=e116]
+        - button [ref=e117] [cursor=pointer]
+        - button "1 a" [ref=e119] [cursor=pointer]:
+          - generic: "1"
+          - generic: a
+        - button "b" [disabled] [ref=e121]:
+          - generic: b
+        - button "c" [ref=e122] [cursor=pointer]:
+          - generic: c
+        - button "d" [disabled] [ref=e124]:
+          - generic: d
+        - button "e" [ref=e125] [cursor=pointer]:
+          - generic: e
+        - button "f" [disabled] [ref=e127]:
+          - generic: f
+        - button "g" [ref=e128] [cursor=pointer]:
+          - generic: g
+        - button "h" [disabled] [ref=e130]:
+          - generic: h

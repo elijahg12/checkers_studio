@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkers Studio</title>
+  <meta id="metaDescription" name="description" content="Checkers Studio: play versus AI or human, stage any board position, simulate any game from any move, use hints, timer, and leaderboard.">
+  <meta id="metaKeywords" name="keywords" content="checkers, draughts, checkers ai, checkers position editor, board game simulator, leaderboard">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta id="metaOgTitle" property="og:title" content="Checkers Studio">
+  <meta id="metaOgDescription" property="og:description" content="Play, stage and simulate checkers games from any position.">
+  <meta id="metaOgUrl" property="og:url" content="/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta id="metaTwitterTitle" name="twitter:title" content="Checkers Studio">
+  <meta id="metaTwitterDescription" name="twitter:description" content="Play, stage and simulate checkers games from any position.">
+  <link id="canonicalLink" rel="canonical" href="/">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script id="ldJsonApp" type="application/ld+json"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="top-head">
+        <button id="settingsToggleBtn" class="gear-btn" type="button" aria-label="Настройки" title="Настройки" aria-expanded="false">
+          <span aria-hidden="true">&#9881;</span>
+        </button>
+        <h1 id="appTitle" data-i18n="appTitle">Checkers Studio</h1>
+        <div class="lang-inline">
+          <div id="langGroup" class="segmented" role="group" aria-label="Language">
+            <button id="langRuBtn" type="button" class="seg-btn active">RUS</button>
+            <button id="langEnBtn" type="button" class="seg-btn">ENG</button>
+          </div>
+        </div>
+      </div>
+      <p id="appSubtitle" class="subtitle" data-i18n="subtitle">Checkers Studio: stage any position, simulate any game from any move, play vs AI or human.</p>
+
+      <aside id="settingsPanel" class="settings-panel" hidden>
+        <h2 id="settingsTitle" class="settings-title" data-i18n="settingsTitle">Настройки</h2>
+        <div class="settings-grid">
+          <div class="control-card">
+            <label id="difficultyLabel" class="control-label" for="difficulty" data-i18n="difficultyLabel">Сложность</label>
+            <select id="difficulty">
+              <option value="easy" data-i18n="difficultyEasy">Лёгкая</option>
+              <option value="medium" selected data-i18n="difficultyMedium">Средняя</option>
+              <option value="hard" data-i18n="difficultyHard">Сложная</option>
+            </select>
+          </div>
+
+          <div class="control-card">
+            <label id="timerLabel" class="control-label" for="timeControl" data-i18n="timerLabel">Таймер</label>
+            <select id="timeControl">
+              <option value="180">3:00</option>
+              <option value="300">5:00</option>
+              <option value="600" selected>10:00</option>
+              <option value="900">15:00</option>
+            </select>
+          </div>
+        </div>
+      </aside>
+
+      <div class="top-controls">
+        <div class="control-card">
+          <span id="modeLabel" class="control-label" data-i18n="modeLabel">Режим игры</span>
+          <div id="modeGroup" class="segmented big" role="group" aria-label="Режим игры">
+            <button id="modeAiBtn" type="button" class="seg-btn active" data-i18n="modeAi">Против компьютера</button>
+            <button id="modePvpBtn" type="button" class="seg-btn" data-i18n="modePvp">Человек vs человек</button>
+          </div>
+        </div>
+
+        <div class="control-card control-card--start">
+          <button id="newGameBtn" class="control-action control-action--primary" data-i18n="newGameBtn">Новая стандартная партия</button>
+          <span id="variantLabel" class="control-label control-sub-label" data-i18n="variantLabel">Вариант</span>
+          <div id="variantGroup" class="segmented compact" role="group" aria-label="Вариант правил">
+            <button id="variantClassicBtn" type="button" class="seg-btn active" data-i18n="variantClassic">Классика</button>
+            <button id="variantGiveawayBtn" type="button" class="seg-btn" data-i18n="variantGiveaway">Поддавки</button>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <span id="colorBottomLabel" class="control-label" data-i18n="colorBottomLabel">Цвет снизу</span>
+          <div id="colorGroup" class="segmented big" role="group" aria-label="Цвет снизу">
+            <button id="colorWhiteBtn" type="button" class="seg-btn active" data-i18n="colorWhiteBottom">Белые снизу</button>
+            <button id="colorBlackBtn" type="button" class="seg-btn" data-i18n="colorBlackBottom">Чёрные снизу</button>
+          </div>
+        </div>
+
+        <div class="control-card control-card--action">
+          <button id="undoBtn" class="control-action control-action--secondary" data-i18n="undoBtn">Отменить ход</button>
+        </div>
+
+        <div class="control-card control-card--hint">
+          <button id="hintOnceBtn" class="control-action control-action--secondary" data-i18n="hintOnceBtn">Подсказка</button>
+          <button id="hintBtn" class="hint-toggle control-action control-action--toggle" aria-pressed="false">
+            <span class="toggle-label">Авто-подсказки: выкл</span>
+            <span class="toggle-track" aria-hidden="true">
+              <span class="toggle-thumb"></span>
+            </span>
+          </button>
+        </div>
+
+        <div class="control-card control-card--action">
+          <button id="enterSetupBtn" class="hint-toggle control-action control-action--toggle" aria-pressed="false">
+            <span class="toggle-label">Редактор позиции: выкл</span>
+            <span class="toggle-track" aria-hidden="true">
+              <span class="toggle-thumb"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="layout" class="layout">
+      <section class="board-section">
+        <div class="timers">
+          <div id="whiteTimer" class="timer-chip">Белые 10:00</div>
+          <div id="blackTimer" class="timer-chip">Чёрные 10:00</div>
+        </div>
+        <div id="status" class="status"></div>
+        <div id="hintText" class="hint-text" aria-live="polite"></div>
+        <div id="board" class="board" role="grid" aria-label="Доска шашек"></div>
+        <section id="leaderboardPanel" class="leaderboard-panel" aria-label="Leaderboard">
+          <div class="leaderboard-head">
+            <h2 id="leaderboardTitle" class="leaderboard-title" data-i18n="leaderboardTitle">Таблица лидеров (vs компьютер)</h2>
+            <p id="leaderboardInfo" class="leaderboard-info" data-i18n="leaderboardInfo">
+              Очки: результат + скорость + сложность, штраф за подсказки.
+            </p>
+          </div>
+          <div class="leaderboard-table-wrap">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th id="leaderboardColRank" data-i18n="leaderboardColRank">#</th>
+                  <th id="leaderboardColName" data-i18n="leaderboardColName">Имя</th>
+                  <th id="leaderboardColScore" data-i18n="leaderboardColScore">Очки</th>
+                  <th id="leaderboardColResult" data-i18n="leaderboardColResult">Результат</th>
+                  <th id="leaderboardColTime" data-i18n="leaderboardColTime">Время</th>
+                  <th id="leaderboardColDiff" data-i18n="leaderboardColDiff">Сложность</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardBody"></tbody>
+            </table>
+          </div>
+          <p id="leaderboardEmpty" class="leaderboard-empty" data-i18n="leaderboardEmpty">
+            Пока нет записей. Завершите партию против компьютера.
+          </p>
+        </section>
+      </section>
+
+      <aside id="editorPanel" class="panel" hidden>
+        <h2 id="editorTitle" data-i18n="editorTitle">Режим редактора</h2>
+        <div id="setupPanel" class="setup-panel" hidden>
+          <label>
+            <span id="setupPieceLabel" data-i18n="setupPieceLabel">Что ставить на поле:</span>
+            <select id="setupPiece">
+              <option value="empty" data-i18n="pieceEmpty">Пусто</option>
+              <option value="w" data-i18n="pieceWhiteMan">Белая шашка</option>
+              <option value="W" data-i18n="pieceWhiteKing">Белая дамка</option>
+              <option value="b" data-i18n="pieceBlackMan">Чёрная шашка</option>
+              <option value="B" data-i18n="pieceBlackKing">Чёрная дамка</option>
+            </select>
+          </label>
+
+          <label>
+            <span id="setupTurnLabel" data-i18n="setupTurnLabel">Чей ход в позиции:</span>
+            <select id="setupTurn">
+              <option value="w" data-i18n="colorWhite">Белые</option>
+              <option value="b" data-i18n="colorBlack">Чёрные</option>
+            </select>
+          </label>
+
+          <label>
+            <span id="setupHumanColorLabel" data-i18n="setupHumanColorLabel">Вы играете за:</span>
+            <select id="setupHumanColor">
+              <option value="w" data-i18n="playWhite">Белых</option>
+              <option value="b" data-i18n="playBlack">Чёрных</option>
+            </select>
+          </label>
+
+          <div class="setup-buttons">
+            <button id="clearBoardBtn" data-i18n="clearBoardBtn">Очистить доску</button>
+            <button id="fillStandardBtn" data-i18n="fillStandardBtn">Стартовая расстановка</button>
+            <button id="applySetupBtn" data-i18n="applySetupBtn">Играть с этой позиции</button>
+            <button id="cancelSetupBtn" class="ghost" data-i18n="cancelBtn">Отмена</button>
+          </div>
+
+          <p id="setupHintText" class="hint" data-i18n="setupHintText">
+            Нажимайте на тёмные клетки, чтобы выставлять фигуры.
+          </p>
+        </div>
+
+      </aside>
+    </main>
+  </div>
+
+  <script src="dist/app.js"></script>
+</body>
+</html>

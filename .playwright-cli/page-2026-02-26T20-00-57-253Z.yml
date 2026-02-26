@@ -1,0 +1,152 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - button "Закрыть настройки" [expanded] [active] [ref=e154] [cursor=pointer]:
+        - generic [ref=e6]: ⚙
+      - heading "Симулятор шашек" [level=1] [ref=e7]
+      - group "Язык" [ref=e9]:
+        - button "RUS" [pressed] [ref=e10] [cursor=pointer]
+        - button "ENG" [ref=e11] [cursor=pointer]
+    - paragraph [ref=e12]: "Шашки: человек vs компьютер, человек vs человек, редактор позиции, таймер и подсказки"
+    - complementary [ref=e155]:
+      - heading "Настройки" [level=2] [ref=e156]
+      - generic [ref=e157]:
+        - generic [ref=e158]:
+          - generic [ref=e159]: Сложность
+          - combobox "Сложность" [ref=e160]:
+            - option "Лёгкая"
+            - option "Средняя" [selected]
+            - option "Сложная"
+        - generic [ref=e161]:
+          - generic [ref=e162]: Таймер
+          - combobox "Таймер" [ref=e163]:
+            - option "3:00"
+            - option "5:00"
+            - option "10:00" [selected]
+            - option "15:00"
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: Режим игры
+        - group "Режим игры" [ref=e16]:
+          - button "Против компьютера" [ref=e17] [cursor=pointer]
+          - button "Человек vs человек" [ref=e18] [cursor=pointer]
+      - generic [ref=e19]:
+        - button "Новая стандартная партия" [ref=e20] [cursor=pointer]
+        - generic [ref=e21]: Вариант
+        - group "Вариант правил" [ref=e22]:
+          - button "Классика" [ref=e23] [cursor=pointer]
+          - button "Поддавки" [ref=e24] [cursor=pointer]
+      - generic [ref=e25]:
+        - generic [ref=e26]: Цвет
+        - group "Выбор цвета" [ref=e27]:
+          - button "Белые" [ref=e28] [cursor=pointer]
+          - button "Чёрные" [ref=e29] [cursor=pointer]
+      - button "Отменить ход" [disabled] [ref=e31]
+      - generic [ref=e32]:
+        - button "Подсказка" [disabled] [ref=e33]
+        - 'button "Авто: выкл" [ref=e34] [cursor=pointer]':
+          - generic [ref=e35]: "Авто: выкл"
+      - 'button "Редактор позиции: выкл" [ref=e39] [cursor=pointer]':
+        - generic [ref=e40]: "Редактор позиции: выкл"
+  - main [ref=e43]:
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]: Белые 10:00
+        - generic [ref=e47]: Чёрные 10:00
+      - generic [ref=e48]: Нажмите «Новая стандартная партия», чтобы начать игру.
+      - grid "Доска шашек" [ref=e50]:
+        - 'button "Клетка a8: пусто." [disabled] [ref=e164]':
+          - generic: "8"
+        - 'button "Клетка b8: чёрная шашка." [ref=e165] [cursor=pointer]'
+        - 'button "Клетка c8: пусто." [disabled] [ref=e167]'
+        - 'button "Клетка d8: чёрная шашка." [ref=e168] [cursor=pointer]'
+        - 'button "Клетка e8: пусто." [disabled] [ref=e170]'
+        - 'button "Клетка f8: чёрная шашка." [ref=e171] [cursor=pointer]'
+        - 'button "Клетка g8: пусто." [disabled] [ref=e173]'
+        - 'button "Клетка h8: чёрная шашка." [ref=e174] [cursor=pointer]'
+        - 'button "Клетка a7: чёрная шашка." [ref=e176] [cursor=pointer]':
+          - generic: "7"
+        - 'button "Клетка b7: пусто." [disabled] [ref=e178]'
+        - 'button "Клетка c7: чёрная шашка." [ref=e179] [cursor=pointer]'
+        - 'button "Клетка d7: пусто." [disabled] [ref=e181]'
+        - 'button "Клетка e7: чёрная шашка." [ref=e182] [cursor=pointer]'
+        - 'button "Клетка f7: пусто." [disabled] [ref=e184]'
+        - 'button "Клетка g7: чёрная шашка." [ref=e185] [cursor=pointer]'
+        - 'button "Клетка h7: пусто." [disabled] [ref=e187]'
+        - 'button "Клетка a6: пусто." [disabled] [ref=e188]':
+          - generic: "6"
+        - 'button "Клетка b6: чёрная шашка." [ref=e189] [cursor=pointer]'
+        - 'button "Клетка c6: пусто." [disabled] [ref=e191]'
+        - 'button "Клетка d6: чёрная шашка." [ref=e192] [cursor=pointer]'
+        - 'button "Клетка e6: пусто." [disabled] [ref=e194]'
+        - 'button "Клетка f6: чёрная шашка." [ref=e195] [cursor=pointer]'
+        - 'button "Клетка g6: пусто." [disabled] [ref=e197]'
+        - 'button "Клетка h6: чёрная шашка." [ref=e198] [cursor=pointer]'
+        - 'button "Клетка a5: пусто." [ref=e200] [cursor=pointer]':
+          - generic: "5"
+        - 'button "Клетка b5: пусто." [disabled] [ref=e201]'
+        - 'button "Клетка c5: пусто." [ref=e202] [cursor=pointer]'
+        - 'button "Клетка d5: пусто." [disabled] [ref=e203]'
+        - 'button "Клетка e5: пусто." [ref=e204] [cursor=pointer]'
+        - 'button "Клетка f5: пусто." [disabled] [ref=e205]'
+        - 'button "Клетка g5: пусто." [ref=e206] [cursor=pointer]'
+        - 'button "Клетка h5: пусто." [disabled] [ref=e207]'
+        - 'button "Клетка a4: пусто." [disabled] [ref=e208]':
+          - generic: "4"
+        - 'button "Клетка b4: пусто." [ref=e209] [cursor=pointer]'
+        - 'button "Клетка c4: пусто." [disabled] [ref=e210]'
+        - 'button "Клетка d4: пусто." [ref=e211] [cursor=pointer]'
+        - 'button "Клетка e4: пусто." [disabled] [ref=e212]'
+        - 'button "Клетка f4: пусто." [ref=e213] [cursor=pointer]'
+        - 'button "Клетка g4: пусто." [disabled] [ref=e214]'
+        - 'button "Клетка h4: пусто." [ref=e215] [cursor=pointer]'
+        - 'button "Клетка a3: белая шашка." [ref=e216] [cursor=pointer]':
+          - generic: "3"
+        - 'button "Клетка b3: пусто." [disabled] [ref=e218]'
+        - 'button "Клетка c3: белая шашка." [ref=e219] [cursor=pointer]'
+        - 'button "Клетка d3: пусто." [disabled] [ref=e221]'
+        - 'button "Клетка e3: белая шашка." [ref=e222] [cursor=pointer]'
+        - 'button "Клетка f3: пусто." [disabled] [ref=e224]'
+        - 'button "Клетка g3: белая шашка." [ref=e225] [cursor=pointer]'
+        - 'button "Клетка h3: пусто." [disabled] [ref=e227]'
+        - 'button "Клетка a2: пусто." [disabled] [ref=e228]':
+          - generic: "2"
+        - 'button "Клетка b2: белая шашка." [ref=e229] [cursor=pointer]'
+        - 'button "Клетка c2: пусто." [disabled] [ref=e231]'
+        - 'button "Клетка d2: белая шашка." [ref=e232] [cursor=pointer]'
+        - 'button "Клетка e2: пусто." [disabled] [ref=e234]'
+        - 'button "Клетка f2: белая шашка." [ref=e235] [cursor=pointer]'
+        - 'button "Клетка g2: пусто." [disabled] [ref=e237]'
+        - 'button "Клетка h2: белая шашка." [ref=e238] [cursor=pointer]'
+        - 'button "Клетка a1: белая шашка." [ref=e240] [cursor=pointer]':
+          - generic: "1"
+          - generic: a
+        - 'button "Клетка b1: пусто." [disabled] [ref=e242]':
+          - generic: b
+        - 'button "Клетка c1: белая шашка." [ref=e243] [cursor=pointer]':
+          - generic: c
+        - 'button "Клетка d1: пусто." [disabled] [ref=e245]':
+          - generic: d
+        - 'button "Клетка e1: белая шашка." [ref=e246] [cursor=pointer]':
+          - generic: e
+        - 'button "Клетка f1: пусто." [disabled] [ref=e248]':
+          - generic: f
+        - 'button "Клетка g1: белая шашка." [ref=e249] [cursor=pointer]':
+          - generic: g
+        - 'button "Клетка h1: пусто." [disabled] [ref=e251]':
+          - generic: h
+      - region "Leaderboard" [ref=e139]:
+        - generic [ref=e140]:
+          - heading "Таблица лидеров (vs компьютер)" [level=2] [ref=e141]
+          - paragraph [ref=e142]: "Очки: результат + скорость + сложность, штраф за подсказки."
+        - table [ref=e144]:
+          - rowgroup [ref=e145]:
+            - row "# Имя Очки Результат Время Сложность" [ref=e146]:
+              - columnheader "#" [ref=e147]
+              - columnheader "Имя" [ref=e148]
+              - columnheader "Очки" [ref=e149]
+              - columnheader "Результат" [ref=e150]
+              - columnheader "Время" [ref=e151]
+              - columnheader "Сложность" [ref=e152]
+          - rowgroup
+        - paragraph [ref=e153]: Пока нет записей. Завершите партию против компьютера.

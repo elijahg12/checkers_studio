@@ -1,0 +1,125 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - heading "Checkers Simulator" [level=1] [ref=e4]
+    - paragraph [ref=e5]: "Checkers: human vs computer, human vs human, position editor, timer and hints"
+    - generic [ref=e7]:
+      - generic [ref=e8]: Language
+      - group "Language" [ref=e9]:
+        - button "RUS" [ref=e10] [cursor=pointer]
+        - button "ENG" [pressed] [ref=e11] [cursor=pointer]
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]: Game mode
+        - group "Game mode" [ref=e15]:
+          - button "Vs computer" [ref=e16] [cursor=pointer]
+          - button "Human vs human" [ref=e17] [cursor=pointer]
+      - generic [ref=e18]:
+        - generic [ref=e19]: Bottom side
+        - group "Bottom side color" [ref=e20]:
+          - button "White at bottom" [ref=e21] [cursor=pointer]
+          - button "Black at bottom" [ref=e22] [cursor=pointer]
+      - generic [ref=e23]:
+        - generic [ref=e24]: Difficulty
+        - combobox "Difficulty" [ref=e25]:
+          - option "Easy"
+          - option "Medium" [selected]
+          - option "Hard"
+      - generic [ref=e26]:
+        - generic [ref=e27]: Timer
+        - combobox "Timer" [ref=e28]:
+          - option "3:00"
+          - option "5:00"
+          - option "10:00" [selected]
+          - option "15:00"
+      - button "New standard game" [ref=e30] [cursor=pointer]
+      - 'button "Hints: off" [ref=e32] [cursor=pointer]':
+        - generic [ref=e33]: "Hints: off"
+      - 'button "Position editor: off" [ref=e37] [cursor=pointer]':
+        - generic [ref=e38]: "Position editor: off"
+  - main [ref=e41]:
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - generic [ref=e44]: White 10:00
+        - generic [ref=e45]: Black 10:00
+      - generic [ref=e46]: Click "New standard game" to start.
+      - grid "Checkers board" [ref=e48]:
+        - 'button "Square a8: empty." [disabled] [ref=e49]':
+          - generic: "8"
+        - 'button "Square b8: black man." [ref=e50] [cursor=pointer]'
+        - 'button "Square c8: empty." [disabled] [ref=e52]'
+        - 'button "Square d8: black man." [ref=e53] [cursor=pointer]'
+        - 'button "Square e8: empty." [disabled] [ref=e55]'
+        - 'button "Square f8: black man." [ref=e56] [cursor=pointer]'
+        - 'button "Square g8: empty." [disabled] [ref=e58]'
+        - 'button "Square h8: black man." [ref=e59] [cursor=pointer]'
+        - 'button "Square a7: black man." [ref=e61] [cursor=pointer]':
+          - generic: "7"
+        - 'button "Square b7: empty." [disabled] [ref=e63]'
+        - 'button "Square c7: black man." [ref=e64] [cursor=pointer]'
+        - 'button "Square d7: empty." [disabled] [ref=e66]'
+        - 'button "Square e7: black man." [ref=e67] [cursor=pointer]'
+        - 'button "Square f7: empty." [disabled] [ref=e69]'
+        - 'button "Square g7: black man." [ref=e70] [cursor=pointer]'
+        - 'button "Square h7: empty." [disabled] [ref=e72]'
+        - 'button "Square a6: empty." [disabled] [ref=e73]':
+          - generic: "6"
+        - 'button "Square b6: black man." [ref=e74] [cursor=pointer]'
+        - 'button "Square c6: empty." [disabled] [ref=e76]'
+        - 'button "Square d6: black man." [ref=e77] [cursor=pointer]'
+        - 'button "Square e6: empty." [disabled] [ref=e79]'
+        - 'button "Square f6: black man." [ref=e80] [cursor=pointer]'
+        - 'button "Square g6: empty." [disabled] [ref=e82]'
+        - 'button "Square h6: black man." [ref=e83] [cursor=pointer]'
+        - 'button "Square a5: empty." [ref=e85] [cursor=pointer]':
+          - generic: "5"
+        - 'button "Square b5: empty." [disabled] [ref=e86]'
+        - 'button "Square c5: empty." [ref=e87] [cursor=pointer]'
+        - 'button "Square d5: empty." [disabled] [ref=e88]'
+        - 'button "Square e5: empty." [ref=e89] [cursor=pointer]'
+        - 'button "Square f5: empty." [disabled] [ref=e90]'
+        - 'button "Square g5: empty." [ref=e91] [cursor=pointer]'
+        - 'button "Square h5: empty." [disabled] [ref=e92]'
+        - 'button "Square a4: empty." [disabled] [ref=e93]':
+          - generic: "4"
+        - 'button "Square b4: empty." [ref=e94] [cursor=pointer]'
+        - 'button "Square c4: empty." [disabled] [ref=e95]'
+        - 'button "Square d4: empty." [ref=e96] [cursor=pointer]'
+        - 'button "Square e4: empty." [disabled] [ref=e97]'
+        - 'button "Square f4: empty." [ref=e98] [cursor=pointer]'
+        - 'button "Square g4: empty." [disabled] [ref=e99]'
+        - 'button "Square h4: empty." [ref=e100] [cursor=pointer]'
+        - 'button "Square a3: white man." [ref=e101] [cursor=pointer]':
+          - generic: "3"
+        - 'button "Square b3: empty." [disabled] [ref=e103]'
+        - 'button "Square c3: white man." [ref=e104] [cursor=pointer]'
+        - 'button "Square d3: empty." [disabled] [ref=e106]'
+        - 'button "Square e3: white man." [ref=e107] [cursor=pointer]'
+        - 'button "Square f3: empty." [disabled] [ref=e109]'
+        - 'button "Square g3: white man." [ref=e110] [cursor=pointer]'
+        - 'button "Square h3: empty." [disabled] [ref=e112]'
+        - 'button "Square a2: empty." [disabled] [ref=e113]':
+          - generic: "2"
+        - 'button "Square b2: white man." [ref=e114] [cursor=pointer]'
+        - 'button "Square c2: empty." [disabled] [ref=e116]'
+        - 'button "Square d2: white man." [ref=e117] [cursor=pointer]'
+        - 'button "Square e2: empty." [disabled] [ref=e119]'
+        - 'button "Square f2: white man." [ref=e120] [cursor=pointer]'
+        - 'button "Square g2: empty." [disabled] [ref=e122]'
+        - 'button "Square h2: white man." [ref=e123] [cursor=pointer]'
+        - 'button "Square a1: white man." [ref=e125] [cursor=pointer]':
+          - generic: "1"
+          - generic: a
+        - 'button "Square b1: empty." [disabled] [ref=e127]':
+          - generic: b
+        - 'button "Square c1: white man." [ref=e128] [cursor=pointer]':
+          - generic: c
+        - 'button "Square d1: empty." [disabled] [ref=e130]':
+          - generic: d
+        - 'button "Square e1: white man." [ref=e131] [cursor=pointer]':
+          - generic: e
+        - 'button "Square f1: empty." [disabled] [ref=e133]':
+          - generic: f
+        - 'button "Square g1: white man." [ref=e134] [cursor=pointer]':
+          - generic: g
+        - 'button "Square h1: empty." [disabled] [ref=e136]':
+          - generic: h

@@ -1,0 +1,152 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - button "Close settings" [expanded] [ref=e252] [cursor=pointer]:
+        - generic [ref=e6]: ⚙
+      - heading "Checkers Simulator" [level=1] [ref=e253]
+      - group "Language" [ref=e254]:
+        - button "RUS" [ref=e10] [cursor=pointer]
+        - button "ENG" [active] [pressed] [ref=e11] [cursor=pointer]
+    - paragraph [ref=e12]: "Checkers: human vs computer, human vs human, position editor, timer and hints"
+    - complementary [ref=e155]:
+      - heading "Settings" [level=2] [ref=e255]
+      - generic [ref=e157]:
+        - generic [ref=e158]:
+          - generic [ref=e159]: Difficulty
+          - combobox "Difficulty" [ref=e256]:
+            - option "Easy"
+            - option "Medium" [selected]
+            - option "Hard"
+        - generic [ref=e161]:
+          - generic [ref=e162]: Timer
+          - combobox "Timer" [ref=e257]:
+            - option "3:00"
+            - option "5:00"
+            - option "10:00" [selected]
+            - option "15:00"
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: Game mode
+        - group "Game mode" [ref=e258]:
+          - button "Vs computer" [ref=e259] [cursor=pointer]
+          - button "Human vs human" [ref=e260] [cursor=pointer]
+      - generic [ref=e19]:
+        - button "New standard game" [ref=e261] [cursor=pointer]
+        - generic [ref=e21]: Variant
+        - group "Rules variant" [ref=e262]:
+          - button "Classic" [ref=e263] [cursor=pointer]
+          - button "Giveaway" [ref=e264] [cursor=pointer]
+      - generic [ref=e25]:
+        - generic [ref=e26]: Color
+        - group "Color selection" [ref=e265]:
+          - button "White" [ref=e266] [cursor=pointer]
+          - button "Black" [ref=e267] [cursor=pointer]
+      - button "Undo move" [disabled] [ref=e268]
+      - generic [ref=e32]:
+        - button "Hint" [disabled] [ref=e269]
+        - 'button "Auto: off" [ref=e270] [cursor=pointer]':
+          - generic [ref=e35]: "Auto: off"
+      - 'button "Position editor: off" [ref=e271] [cursor=pointer]':
+        - generic [ref=e40]: "Position editor: off"
+  - main [ref=e43]:
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]: White 10:00
+        - generic [ref=e47]: Black 10:00
+      - generic [ref=e48]: Click "New standard game" to start.
+      - grid "Checkers board" [ref=e272]:
+        - 'button "Square a8: empty." [disabled] [ref=e273]':
+          - generic: "8"
+        - 'button "Square b8: black man." [ref=e274] [cursor=pointer]'
+        - 'button "Square c8: empty." [disabled] [ref=e276]'
+        - 'button "Square d8: black man." [ref=e277] [cursor=pointer]'
+        - 'button "Square e8: empty." [disabled] [ref=e279]'
+        - 'button "Square f8: black man." [ref=e280] [cursor=pointer]'
+        - 'button "Square g8: empty." [disabled] [ref=e282]'
+        - 'button "Square h8: black man." [ref=e283] [cursor=pointer]'
+        - 'button "Square a7: black man." [ref=e285] [cursor=pointer]':
+          - generic: "7"
+        - 'button "Square b7: empty." [disabled] [ref=e287]'
+        - 'button "Square c7: black man." [ref=e288] [cursor=pointer]'
+        - 'button "Square d7: empty." [disabled] [ref=e290]'
+        - 'button "Square e7: black man." [ref=e291] [cursor=pointer]'
+        - 'button "Square f7: empty." [disabled] [ref=e293]'
+        - 'button "Square g7: black man." [ref=e294] [cursor=pointer]'
+        - 'button "Square h7: empty." [disabled] [ref=e296]'
+        - 'button "Square a6: empty." [disabled] [ref=e297]':
+          - generic: "6"
+        - 'button "Square b6: black man." [ref=e298] [cursor=pointer]'
+        - 'button "Square c6: empty." [disabled] [ref=e300]'
+        - 'button "Square d6: black man." [ref=e301] [cursor=pointer]'
+        - 'button "Square e6: empty." [disabled] [ref=e303]'
+        - 'button "Square f6: black man." [ref=e304] [cursor=pointer]'
+        - 'button "Square g6: empty." [disabled] [ref=e306]'
+        - 'button "Square h6: black man." [ref=e307] [cursor=pointer]'
+        - 'button "Square a5: empty." [ref=e309] [cursor=pointer]':
+          - generic: "5"
+        - 'button "Square b5: empty." [disabled] [ref=e310]'
+        - 'button "Square c5: empty." [ref=e311] [cursor=pointer]'
+        - 'button "Square d5: empty." [disabled] [ref=e312]'
+        - 'button "Square e5: empty." [ref=e313] [cursor=pointer]'
+        - 'button "Square f5: empty." [disabled] [ref=e314]'
+        - 'button "Square g5: empty." [ref=e315] [cursor=pointer]'
+        - 'button "Square h5: empty." [disabled] [ref=e316]'
+        - 'button "Square a4: empty." [disabled] [ref=e317]':
+          - generic: "4"
+        - 'button "Square b4: empty." [ref=e318] [cursor=pointer]'
+        - 'button "Square c4: empty." [disabled] [ref=e319]'
+        - 'button "Square d4: empty." [ref=e320] [cursor=pointer]'
+        - 'button "Square e4: empty." [disabled] [ref=e321]'
+        - 'button "Square f4: empty." [ref=e322] [cursor=pointer]'
+        - 'button "Square g4: empty." [disabled] [ref=e323]'
+        - 'button "Square h4: empty." [ref=e324] [cursor=pointer]'
+        - 'button "Square a3: white man." [ref=e325] [cursor=pointer]':
+          - generic: "3"
+        - 'button "Square b3: empty." [disabled] [ref=e327]'
+        - 'button "Square c3: white man." [ref=e328] [cursor=pointer]'
+        - 'button "Square d3: empty." [disabled] [ref=e330]'
+        - 'button "Square e3: white man." [ref=e331] [cursor=pointer]'
+        - 'button "Square f3: empty." [disabled] [ref=e333]'
+        - 'button "Square g3: white man." [ref=e334] [cursor=pointer]'
+        - 'button "Square h3: empty." [disabled] [ref=e336]'
+        - 'button "Square a2: empty." [disabled] [ref=e337]':
+          - generic: "2"
+        - 'button "Square b2: white man." [ref=e338] [cursor=pointer]'
+        - 'button "Square c2: empty." [disabled] [ref=e340]'
+        - 'button "Square d2: white man." [ref=e341] [cursor=pointer]'
+        - 'button "Square e2: empty." [disabled] [ref=e343]'
+        - 'button "Square f2: white man." [ref=e344] [cursor=pointer]'
+        - 'button "Square g2: empty." [disabled] [ref=e346]'
+        - 'button "Square h2: white man." [ref=e347] [cursor=pointer]'
+        - 'button "Square a1: white man." [ref=e349] [cursor=pointer]':
+          - generic: "1"
+          - generic: a
+        - 'button "Square b1: empty." [disabled] [ref=e351]':
+          - generic: b
+        - 'button "Square c1: white man." [ref=e352] [cursor=pointer]':
+          - generic: c
+        - 'button "Square d1: empty." [disabled] [ref=e354]':
+          - generic: d
+        - 'button "Square e1: white man." [ref=e355] [cursor=pointer]':
+          - generic: e
+        - 'button "Square f1: empty." [disabled] [ref=e357]':
+          - generic: f
+        - 'button "Square g1: white man." [ref=e358] [cursor=pointer]':
+          - generic: g
+        - 'button "Square h1: empty." [disabled] [ref=e360]':
+          - generic: h
+      - region "Leaderboard" [ref=e139]:
+        - generic [ref=e140]:
+          - heading "Leaderboard (vs computer)" [level=2] [ref=e361]
+          - paragraph [ref=e142]: "Score: result + speed + difficulty, hints reduce score."
+        - table [ref=e144]:
+          - rowgroup [ref=e145]:
+            - row "# Name Score Result Time Difficulty" [ref=e362]:
+              - columnheader "#" [ref=e147]
+              - columnheader "Name" [ref=e363]
+              - columnheader "Score" [ref=e364]
+              - columnheader "Result" [ref=e365]
+              - columnheader "Time" [ref=e366]
+              - columnheader "Difficulty" [ref=e367]
+          - rowgroup
+        - paragraph [ref=e153]: No entries yet. Finish a game versus computer.

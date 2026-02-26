@@ -1,0 +1,179 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - button "Close settings" [expanded] [ref=e252] [cursor=pointer]:
+        - generic [ref=e6]: ⚙
+      - heading "Checkers Simulator" [level=1] [ref=e253]
+      - group "Language" [ref=e254]:
+        - button "RUS" [ref=e10] [cursor=pointer]
+        - button "ENG" [pressed] [ref=e11] [cursor=pointer]
+    - paragraph [ref=e12]: "Checkers: human vs computer, human vs human, position editor, timer and hints"
+    - complementary [ref=e155]:
+      - heading "Settings" [level=2] [ref=e255]
+      - generic [ref=e157]:
+        - generic [ref=e158]:
+          - generic [ref=e159]: Difficulty
+          - combobox "Difficulty" [disabled] [ref=e256]:
+            - option "Easy"
+            - option "Medium" [selected]
+            - option "Hard"
+        - generic [ref=e161]:
+          - generic [ref=e162]: Timer
+          - combobox "Timer" [disabled] [ref=e257]:
+            - option "3:00"
+            - option "5:00"
+            - option "10:00" [selected]
+            - option "15:00"
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: Game mode
+        - group "Game mode" [ref=e258]:
+          - button "Vs computer" [disabled] [ref=e259]
+          - button "Human vs human" [disabled] [ref=e260]
+      - generic [ref=e19]:
+        - button "New standard game" [ref=e261] [cursor=pointer]
+        - generic [ref=e21]: Variant
+        - group "Rules variant" [ref=e262]:
+          - button "Classic" [disabled] [ref=e263]
+          - button "Giveaway" [disabled] [ref=e264]
+      - generic [ref=e25]:
+        - generic [ref=e26]: Color
+        - group "Color selection" [ref=e265]:
+          - button "White" [disabled] [ref=e266]
+          - button "Black" [disabled] [ref=e267]
+      - button "Undo move" [disabled] [ref=e268]
+      - generic [ref=e32]:
+        - button "Hint" [disabled] [ref=e269]
+        - 'button "Auto: off" [disabled] [ref=e270]':
+          - generic [ref=e35]: "Auto: off"
+      - 'button "Position editor: on" [active] [pressed] [ref=e544] [cursor=pointer]':
+        - generic [ref=e40]: "Position editor: on"
+  - main [ref=e43]:
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]: White 09:57
+        - generic [ref=e47]: Black 10:00
+      - generic [ref=e48]: "Editor mode: set pieces, choose side to move and your side, then click \"Play from this position\"."
+      - grid "Checkers board" [ref=e272]:
+        - 'button "Square a8: empty." [disabled] [ref=e545]':
+          - generic: "8"
+        - 'button "Square b8: black man." [ref=e546] [cursor=pointer]'
+        - 'button "Square c8: empty." [disabled] [ref=e548]'
+        - 'button "Square d8: black man." [ref=e549] [cursor=pointer]'
+        - 'button "Square e8: empty." [disabled] [ref=e551]'
+        - 'button "Square f8: black man." [ref=e552] [cursor=pointer]'
+        - 'button "Square g8: empty." [disabled] [ref=e554]'
+        - 'button "Square h8: black man." [ref=e555] [cursor=pointer]'
+        - 'button "Square a7: black man." [ref=e557] [cursor=pointer]':
+          - generic: "7"
+        - 'button "Square b7: empty." [disabled] [ref=e559]'
+        - 'button "Square c7: black man." [ref=e560] [cursor=pointer]'
+        - 'button "Square d7: empty." [disabled] [ref=e562]'
+        - 'button "Square e7: black man." [ref=e563] [cursor=pointer]'
+        - 'button "Square f7: empty." [disabled] [ref=e565]'
+        - 'button "Square g7: black man." [ref=e566] [cursor=pointer]'
+        - 'button "Square h7: empty." [disabled] [ref=e568]'
+        - 'button "Square a6: empty." [disabled] [ref=e569]':
+          - generic: "6"
+        - 'button "Square b6: black man." [ref=e570] [cursor=pointer]'
+        - 'button "Square c6: empty." [disabled] [ref=e572]'
+        - 'button "Square d6: black man." [ref=e573] [cursor=pointer]'
+        - 'button "Square e6: empty." [disabled] [ref=e575]'
+        - 'button "Square f6: black man." [ref=e576] [cursor=pointer]'
+        - 'button "Square g6: empty." [disabled] [ref=e578]'
+        - 'button "Square h6: black man." [ref=e579] [cursor=pointer]'
+        - 'button "Square a5: empty." [ref=e581] [cursor=pointer]':
+          - generic: "5"
+        - 'button "Square b5: empty." [disabled] [ref=e582]'
+        - 'button "Square c5: empty." [ref=e583] [cursor=pointer]'
+        - 'button "Square d5: empty." [disabled] [ref=e584]'
+        - 'button "Square e5: empty." [ref=e585] [cursor=pointer]'
+        - 'button "Square f5: empty." [disabled] [ref=e586]'
+        - 'button "Square g5: empty." [ref=e587] [cursor=pointer]'
+        - 'button "Square h5: empty." [disabled] [ref=e588]'
+        - 'button "Square a4: empty." [disabled] [ref=e589]':
+          - generic: "4"
+        - 'button "Square b4: empty." [ref=e590] [cursor=pointer]'
+        - 'button "Square c4: empty." [disabled] [ref=e591]'
+        - 'button "Square d4: empty." [ref=e592] [cursor=pointer]'
+        - 'button "Square e4: empty." [disabled] [ref=e593]'
+        - 'button "Square f4: empty." [ref=e594] [cursor=pointer]'
+        - 'button "Square g4: empty." [disabled] [ref=e595]'
+        - 'button "Square h4: empty." [ref=e596] [cursor=pointer]'
+        - 'button "Square a3: white man." [ref=e597] [cursor=pointer]':
+          - generic: "3"
+        - 'button "Square b3: empty." [disabled] [ref=e599]'
+        - 'button "Square c3: white man." [ref=e600] [cursor=pointer]'
+        - 'button "Square d3: empty." [disabled] [ref=e602]'
+        - 'button "Square e3: white man." [ref=e603] [cursor=pointer]'
+        - 'button "Square f3: empty." [disabled] [ref=e605]'
+        - 'button "Square g3: white man." [ref=e606] [cursor=pointer]'
+        - 'button "Square h3: empty." [disabled] [ref=e608]'
+        - 'button "Square a2: empty." [disabled] [ref=e609]':
+          - generic: "2"
+        - 'button "Square b2: white man." [ref=e610] [cursor=pointer]'
+        - 'button "Square c2: empty." [disabled] [ref=e612]'
+        - 'button "Square d2: white man." [ref=e613] [cursor=pointer]'
+        - 'button "Square e2: empty." [disabled] [ref=e615]'
+        - 'button "Square f2: white man." [ref=e616] [cursor=pointer]'
+        - 'button "Square g2: empty." [disabled] [ref=e618]'
+        - 'button "Square h2: white man." [ref=e619] [cursor=pointer]'
+        - 'button "Square a1: white man." [ref=e621] [cursor=pointer]':
+          - generic: "1"
+          - generic: a
+        - 'button "Square b1: empty." [disabled] [ref=e623]':
+          - generic: b
+        - 'button "Square c1: white man." [ref=e624] [cursor=pointer]':
+          - generic: c
+        - 'button "Square d1: empty." [disabled] [ref=e626]':
+          - generic: d
+        - 'button "Square e1: white man." [ref=e627] [cursor=pointer]':
+          - generic: e
+        - 'button "Square f1: empty." [disabled] [ref=e629]':
+          - generic: f
+        - 'button "Square g1: white man." [ref=e630] [cursor=pointer]':
+          - generic: g
+        - 'button "Square h1: empty." [disabled] [ref=e632]':
+          - generic: h
+      - region "Leaderboard" [ref=e139]:
+        - generic [ref=e140]:
+          - heading "Leaderboard (vs computer)" [level=2] [ref=e361]
+          - paragraph [ref=e142]: "Score: result + speed + difficulty, hints reduce score."
+        - table [ref=e144]:
+          - rowgroup [ref=e145]:
+            - row "# Name Score Result Time Difficulty" [ref=e362]:
+              - columnheader "#" [ref=e147]
+              - columnheader "Name" [ref=e363]
+              - columnheader "Score" [ref=e364]
+              - columnheader "Result" [ref=e365]
+              - columnheader "Time" [ref=e366]
+              - columnheader "Difficulty" [ref=e367]
+          - rowgroup
+        - paragraph [ref=e153]: No entries yet. Finish a game versus computer.
+    - complementary [ref=e633]:
+      - heading "Editor mode" [level=2] [ref=e634]
+      - generic [ref=e635]:
+        - generic [ref=e636]:
+          - generic [ref=e637]: "Piece to place:"
+          - combobox "Piece to place:" [ref=e638]:
+            - option "Empty" [selected]
+            - option "White man"
+            - option "White king"
+            - option "Black man"
+            - option "Black king"
+        - generic [ref=e639]:
+          - generic [ref=e640]: "Side to move:"
+          - combobox "Side to move:" [ref=e641]:
+            - option "White" [selected]
+            - option "Black"
+        - generic [ref=e642]:
+          - generic [ref=e643]: "You play as:"
+          - combobox "You play as:" [ref=e644]:
+            - option "White" [selected]
+            - option "Black"
+        - generic [ref=e645]:
+          - button "Clear board" [ref=e646] [cursor=pointer]
+          - button "Standard setup" [ref=e647] [cursor=pointer]
+          - button "Play from this position" [ref=e648] [cursor=pointer]
+          - button "Cancel" [ref=e649] [cursor=pointer]
+        - paragraph [ref=e650]: Click dark squares to place pieces.
