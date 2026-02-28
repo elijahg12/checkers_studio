@@ -282,10 +282,12 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     leaderboardResultLoss: "Поражение",
     leaderboardNamePrompt: "Вы попали в таблицу лидеров! Очки: {score}. Введите имя (2-16 символов).",
     leaderboardNamePromptTitle: "Вы в топе!",
+    leaderboardNamePlaceholder: "Ваше имя",
     leaderboardSyncError: "Лидерборд недоступен: сервер не отвечает.",
     leaderboardRejectedSetup: "Запись не засчитана: партия начата из редактора позиции.",
     leaderboardRejectedGuard: "Запись не засчитана: сработала anti-cheat проверка.",
     leaderboardSubmitted: "Результат отправлен в глобальный лидерборд.",
+    submitBtn: "Отправить",
     undoBtn: "Отменить ход",
     hintOnceBtn: "Подсказка",
     hintModeOn: "Авто: вкл",
@@ -383,10 +385,12 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     leaderboardResultLoss: "Loss",
     leaderboardNamePrompt: "You made the leaderboard! Score: {score}. Enter name (2-16 chars).",
     leaderboardNamePromptTitle: "You're on the leaderboard!",
+    leaderboardNamePlaceholder: "Your name",
     leaderboardSyncError: "Leaderboard unavailable: server did not respond.",
     leaderboardRejectedSetup: "Result not ranked: game started from position editor.",
     leaderboardRejectedGuard: "Result not ranked: anti-cheat validation failed.",
     leaderboardSubmitted: "Result submitted to global leaderboard.",
+    submitBtn: "Submit",
     undoBtn: "Undo move",
     hintOnceBtn: "Hint",
     hintModeOn: "Auto: on",
@@ -2553,6 +2557,15 @@ function applyStaticTranslations() {
       return;
     }
     node.textContent = t(key);
+  });
+
+  const translatablePlaceholders = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("[data-i18n-placeholder]");
+  translatablePlaceholders.forEach((node) => {
+    const key = node.dataset.i18nPlaceholder;
+    if (!key) {
+      return;
+    }
+    node.placeholder = t(key);
   });
 
   elements.board.setAttribute("aria-label", t("boardAria"));
