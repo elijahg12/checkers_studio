@@ -60,8 +60,8 @@
         </div>
       </aside>
 
-      <div class="top-controls">
-        <div class="control-card">
+      <div id="topControls" class="top-controls mobile-collapsed">
+        <div class="control-card mobile-always-show">
           <span id="modeLabel" class="control-label" data-i18n="modeLabel">Режим игры</span>
           <div id="modeGroup" class="segmented big" role="group" aria-label="Режим игры">
             <button id="modeAiBtn" type="button" class="seg-btn active" data-i18n="modeAi">Против компьютера</button>
@@ -69,7 +69,7 @@
           </div>
         </div>
 
-        <div class="control-card control-card--start">
+        <div class="control-card control-card--start mobile-always-show">
           <button id="newGameBtn" class="control-action control-action--primary" data-i18n="newGameBtn">Новая стандартная партия</button>
           <span id="variantLabel" class="control-label control-sub-label" data-i18n="variantLabel">Вариант</span>
           <div id="variantGroup" class="segmented compact" role="group" aria-label="Вариант правил">
@@ -106,6 +106,13 @@
             <span class="toggle-track" aria-hidden="true">
               <span class="toggle-thumb"></span>
             </span>
+          </button>
+        </div>
+
+        <div class="control-card control-card--action mobile-always-show mobile-toggle-card">
+          <button id="mobileControlsToggle" class="control-action control-action--secondary mobile-toggle-btn">
+            <span id="mobileToggleText" data-i18n="showMoreControls">Показать все настройки</span>
+            <span id="mobileToggleIcon" aria-hidden="true">▼</span>
           </button>
         </div>
       </div>
@@ -192,6 +199,19 @@
 
       </aside>
     </main>
+
+    <div id="nameModal" class="modal" hidden>
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <h2 id="nameModalTitle" class="modal-title" data-i18n="leaderboardNamePromptTitle">Enter Your Name</h2>
+        <p id="nameModalText" class="modal-text"></p>
+        <input id="nameModalInput" type="text" class="modal-input" maxlength="16" placeholder="Your name">
+        <div class="modal-buttons">
+          <button id="nameModalSubmit" class="control-action control-action--primary" data-i18n="submitBtn">Submit</button>
+          <button id="nameModalCancel" class="control-action control-action--secondary" data-i18n="cancelBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="dist/app.js"></script>

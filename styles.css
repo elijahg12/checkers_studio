@@ -728,6 +728,110 @@ button.control-action--toggle.active {
   gap: 0.5rem;
 }
 
+.mobile-toggle-card {
+  display: none;
+}
+
+.mobile-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.mobile-toggle-btn #mobileToggleIcon {
+  transition: transform 200ms ease;
+}
+
+.top-controls:not(.mobile-collapsed) .mobile-toggle-btn #mobileToggleIcon {
+  transform: rotate(180deg);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fade-in 200ms ease;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(29, 43, 31, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  z-index: 101;
+  width: min(420px, calc(100% - 2rem));
+  background: var(--panel-strong);
+  border-radius: 18px;
+  padding: 1.2rem;
+  border: 1px solid rgba(49, 92, 63, 0.2);
+  box-shadow: 0 20px 40px rgba(36, 52, 38, 0.3);
+  animation: slide-up 200ms ease;
+}
+
+.modal-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+  color: var(--ink);
+}
+
+.modal-text {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 0.65rem;
+  border: 1px solid rgba(49, 92, 63, 0.28);
+  border-radius: 12px;
+  font: inherit;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(49, 92, 63, 0.15);
+}
+
+.modal-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -794,6 +898,10 @@ button.control-action--toggle.active {
 }
 
 @media (max-width: 640px) {
+  .top {
+    width: min(95vw, 560px);
+  }
+
   .top-head {
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 0.35rem;
@@ -836,6 +944,14 @@ button.control-action--toggle.active {
 
   .top-controls {
     grid-template-columns: 1fr;
+  }
+
+  .top-controls.mobile-collapsed .control-card:not(.mobile-always-show) {
+    display: none;
+  }
+
+  .mobile-toggle-card {
+    display: flex !important;
   }
 
   .control-card,

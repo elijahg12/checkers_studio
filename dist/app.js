@@ -77,7 +77,8 @@ const TRANSLATIONS = {
         leaderboardEmpty: "Пока нет записей. Завершите партию против компьютера.",
         leaderboardResultWin: "Победа",
         leaderboardResultLoss: "Поражение",
-        leaderboardNamePrompt: "Вы попали в таблицу лидеров! Очки: {score}. Введите имя (2-16 символов). Отмена — пропустить.",
+        leaderboardNamePrompt: "Вы попали в таблицу лидеров! Очки: {score}. Введите имя (2-16 символов).",
+        leaderboardNamePromptTitle: "Вы в топе!",
         leaderboardSyncError: "Лидерборд недоступен: сервер не отвечает.",
         leaderboardRejectedSetup: "Запись не засчитана: партия начата из редактора позиции.",
         leaderboardRejectedGuard: "Запись не засчитана: сработала anti-cheat проверка.",
@@ -86,6 +87,8 @@ const TRANSLATIONS = {
         hintOnceBtn: "Подсказка",
         hintModeOn: "Авто: вкл",
         hintModeOff: "Авто: выкл",
+        showMoreControls: "Показать все настройки",
+        showLessControls: "Скрыть настройки",
         setupModeOn: "Редактор позиции: вкл",
         setupModeOff: "Редактор позиции: выкл",
         timerWhite: "Белые",
@@ -175,7 +178,8 @@ const TRANSLATIONS = {
         leaderboardEmpty: "No entries yet. Finish a game versus computer.",
         leaderboardResultWin: "Win",
         leaderboardResultLoss: "Loss",
-        leaderboardNamePrompt: "You made the leaderboard! Score: {score}. Enter name (2-16 chars). Cancel to skip.",
+        leaderboardNamePrompt: "You made the leaderboard! Score: {score}. Enter name (2-16 chars).",
+        leaderboardNamePromptTitle: "You're on the leaderboard!",
         leaderboardSyncError: "Leaderboard unavailable: server did not respond.",
         leaderboardRejectedSetup: "Result not ranked: game started from position editor.",
         leaderboardRejectedGuard: "Result not ranked: anti-cheat validation failed.",
@@ -184,6 +188,8 @@ const TRANSLATIONS = {
         hintOnceBtn: "Hint",
         hintModeOn: "Auto: on",
         hintModeOff: "Auto: off",
+        showMoreControls: "Show all controls",
+        showLessControls: "Hide controls",
         setupModeOn: "Position editor: on",
         setupModeOff: "Position editor: off",
         timerWhite: "White",
@@ -368,6 +374,14 @@ const elements = {
     fillStandardBtn: getRequiredElement("fillStandardBtn"),
     applySetupBtn: getRequiredElement("applySetupBtn"),
     cancelSetupBtn: getRequiredElement("cancelSetupBtn"),
+    nameModal: getRequiredElement("nameModal"),
+    nameModalText: getRequiredElement("nameModalText"),
+    nameModalInput: getRequiredElement("nameModalInput"),
+    nameModalSubmit: getRequiredElement("nameModalSubmit"),
+    nameModalCancel: getRequiredElement("nameModalCancel"),
+    topControls: getRequiredElement("topControls"),
+    mobileControlsToggle: getRequiredElement("mobileControlsToggle"),
+    mobileToggleText: getRequiredElement("mobileToggleText"),
 };
 const state = {
     board: createInitialBoard(),
@@ -644,6 +658,42 @@ function beginGameSession(startedFromSetup = false) {
         rankedSessionToken = token;
     });
 }
+function showNameModal(promptText) {
+    return new Promise((resolve) => {
+        elements.nameModalText.textContent = promptText;
+        elements.nameModalInput.value = "";
+        elements.nameModal.hidden = false;
+        elements.nameModalInput.focus();
+        const handleSubmit = () => {
+            const value = elements.nameModalInput.value.trim();
+            cleanup();
+            resolve(value || null);
+        };
+        const handleCancel = () => {
+            cleanup();
+            resolve(null);
+        };
+        const handleKeydown = (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                handleSubmit();
+            }
+            else if (e.key === "Escape") {
+                e.preventDefault();
+                handleCancel();
+            }
+        };
+        const cleanup = () => {
+            elements.nameModal.hidden = true;
+            elements.nameModalSubmit.removeEventListener("click", handleSubmit);
+            elements.nameModalCancel.removeEventListener("click", handleCancel);
+            elements.nameModalInput.removeEventListener("keydown", handleKeydown);
+        };
+        elements.nameModalSubmit.addEventListener("click", handleSubmit);
+        elements.nameModalCancel.addEventListener("click", handleCancel);
+        elements.nameModalInput.addEventListener("keydown", handleKeydown);
+    });
+}
 function maybeFinalizeLeaderboardForAi(reason) {
     if (!state.gameStarted || !state.gameOver) {
         return;
@@ -685,73 +735,74 @@ function maybeFinalizeLeaderboardForAi(reason) {
         return;
     }
     const promptText = t("leaderboardNamePrompt", { score });
-    const rawName = window.prompt(promptText);
-    if (rawName === null) {
-        return;
-    }
-    const name = normalizePlayerName(rawName);
-    if (!name) {
-        return;
-    }
-    void apiFetchJson("/leaderboard/submit", {
-        method: "POST",
-        body: JSON.stringify({
-            sessionId: rankedSessionToken.sessionId,
-            issuedAt: rankedSessionToken.issuedAt,
-            signature: rankedSessionToken.signature,
-            name,
-            result,
-            difficulty: state.difficulty,
-            variant: state.variant,
-            elapsedMs,
-            hintsUsed: sessionHintsUsed,
-            moveCount: sessionMoveCount,
-            setupUsed: sessionUsedSetupMode,
-            timedOut: wonOnTime,
-        }),
-    }).then((response) => {
-        if (!response) {
-            state.hintText = t("leaderboardSyncError");
-            render();
+    void showNameModal(promptText).then((rawName) => {
+        if (rawName === null) {
             return;
         }
-        if (!response.accepted) {
+        const name = normalizePlayerName(rawName);
+        if (!name) {
+            return;
+        }
+        void apiFetchJson("/leaderboard/submit", {
+            method: "POST",
+            body: JSON.stringify({
+                sessionId: rankedSessionToken.sessionId,
+                issuedAt: rankedSessionToken.issuedAt,
+                signature: rankedSessionToken.signature,
+                name,
+                result,
+                difficulty: state.difficulty,
+                variant: state.variant,
+                elapsedMs,
+                hintsUsed: sessionHintsUsed,
+                moveCount: sessionMoveCount,
+                setupUsed: sessionUsedSetupMode,
+                timedOut: wonOnTime,
+            }),
+        }).then((response) => {
+            if (!response) {
+                state.hintText = t("leaderboardSyncError");
+                render();
+                return;
+            }
+            if (!response.accepted) {
+                sendTelemetryEvent("game_finish", {
+                    result,
+                    elapsedMs,
+                    moveCount: sessionMoveCount,
+                    hintsUsed: sessionHintsUsed,
+                    accepted: false,
+                    reason: response.reason ?? "rejected",
+                });
+                if (response.reason === "rejected_setup") {
+                    state.hintText = t("leaderboardRejectedSetup");
+                }
+                else if (response.reason && response.reason.startsWith("guard_")) {
+                    state.hintText = t("leaderboardRejectedGuard");
+                }
+                if (Array.isArray(response.leaderboard)) {
+                    leaderboardEntries = sortLeaderboard(response.leaderboard.filter(isLeaderboardEntry)).slice(0, LEADERBOARD_LIMIT);
+                }
+                render();
+                return;
+            }
+            if (Array.isArray(response.leaderboard)) {
+                leaderboardEntries = sortLeaderboard(response.leaderboard.filter(isLeaderboardEntry)).slice(0, LEADERBOARD_LIMIT);
+            }
+            else if (response.entry && isLeaderboardEntry(response.entry)) {
+                leaderboardEntries = sortLeaderboard([...leaderboardEntries, response.entry]).slice(0, LEADERBOARD_LIMIT);
+            }
             sendTelemetryEvent("game_finish", {
                 result,
                 elapsedMs,
                 moveCount: sessionMoveCount,
                 hintsUsed: sessionHintsUsed,
-                accepted: false,
-                reason: response.reason ?? "rejected",
+                accepted: true,
+                score: response.entry?.score ?? score,
             });
-            if (response.reason === "rejected_setup") {
-                state.hintText = t("leaderboardRejectedSetup");
-            }
-            else if (response.reason && response.reason.startsWith("guard_")) {
-                state.hintText = t("leaderboardRejectedGuard");
-            }
-            if (Array.isArray(response.leaderboard)) {
-                leaderboardEntries = sortLeaderboard(response.leaderboard.filter(isLeaderboardEntry)).slice(0, LEADERBOARD_LIMIT);
-            }
+            state.hintText = t("leaderboardSubmitted");
             render();
-            return;
-        }
-        if (Array.isArray(response.leaderboard)) {
-            leaderboardEntries = sortLeaderboard(response.leaderboard.filter(isLeaderboardEntry)).slice(0, LEADERBOARD_LIMIT);
-        }
-        else if (response.entry && isLeaderboardEntry(response.entry)) {
-            leaderboardEntries = sortLeaderboard([...leaderboardEntries, response.entry]).slice(0, LEADERBOARD_LIMIT);
-        }
-        sendTelemetryEvent("game_finish", {
-            result,
-            elapsedMs,
-            moveCount: sessionMoveCount,
-            hintsUsed: sessionHintsUsed,
-            accepted: true,
-            score: response.entry?.score ?? score,
         });
-        state.hintText = t("leaderboardSubmitted");
-        render();
     });
 }
 function resetClocks() {
@@ -2190,8 +2241,20 @@ function render() {
     renderBoard();
     ensureHintIfNeeded();
 }
+function toggleMobileControls() {
+    const isCollapsed = elements.topControls.classList.contains("mobile-collapsed");
+    if (isCollapsed) {
+        elements.topControls.classList.remove("mobile-collapsed");
+        elements.mobileToggleText.textContent = t("showLessControls");
+    }
+    else {
+        elements.topControls.classList.add("mobile-collapsed");
+        elements.mobileToggleText.textContent = t("showMoreControls");
+    }
+}
 function bindEvents() {
     elements.settingsToggleBtn.addEventListener("click", toggleSettingsPanel);
+    elements.mobileControlsToggle.addEventListener("click", toggleMobileControls);
     elements.langRuBtn.addEventListener("click", () => setLanguage("ru"));
     elements.langEnBtn.addEventListener("click", () => setLanguage("en"));
     elements.modeAiBtn.addEventListener("click", () => setGameMode("ai"));

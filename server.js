@@ -20,6 +20,7 @@ const MIN_ELAPSED_MS_FOR_RANK = 45_000;
 const MAX_HINTS_FOR_RANK = 30;
 const ADMIN_DEFAULT_DAYS = 14;
 const ADMIN_MAX_DAYS = 120;
+const TELEMETRY_MAX_SIZE = 10 * 1024 * 1024; // 10MB
 
 const ALLOWED_TELEMETRY_EVENTS = new Set([
   "game_start",
@@ -29,6 +30,25 @@ const ALLOWED_TELEMETRY_EVENTS = new Set([
   "setup_cancel",
   "hint_request",
 ]);
+
+const SECURITY_HEADERS = {
+  "X-Frame-Options": "DENY",
+  "X-Content-Type-Options": "nosniff",
+  "X-XSS-Protection": "1; mode=block",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
+};
+
+// Rate limiting: Map<IP, Map<endpoint, {count, resetTime}>>
+const rateLimitStore = new Map();
+const RATE_LIMITS = {
+  "/api/session/start": { max: 30, windowMs: 60000 },
+  "/api/leaderboard/submit": { max: 10, windowMs: 60000 },
+  "/api/telemetry/event": { max: 100, windowMs: 60000 },
+  "/admin": { max: 20, windowMs: 60000 },
+  "/api/admin/telemetry-summary": { max: 20, windowMs: 60000 },
+  default: { max: 100, windowMs: 60000 },
+};
 
 const SCORE_PAR_TIME_MS = {
   easy: 6 * 60_000,
@@ -194,33 +214,89 @@ function pruneExpiredSessions(sessionStore) {
   }
 }
 
-function readJsonBody(req) {
+function checkRateLimit(ip, pathname) {
+  const now = Date.now();
+  const limit = RATE_LIMITS[pathname] || RATE_LIMITS.default;
+
+  if (!rateLimitStore.has(ip)) {
+    rateLimitStore.set(ip, new Map());
+  }
+
+  const ipLimits = rateLimitStore.get(ip);
+  const endpointData = ipLimits.get(pathname) || { count: 0, resetTime: now + limit.windowMs };
+
+  if (now > endpointData.resetTime) {
+    endpointData.count = 0;
+    endpointData.resetTime = now + limit.windowMs;
+  }
+
+  endpointData.count += 1;
+  ipLimits.set(pathname, endpointData);
+
+  return endpointData.count <= limit.max;
+}
+
+function pruneRateLimitStore() {
+  const now = Date.now();
+  for (const [ip, endpoints] of rateLimitStore.entries()) {
+    for (const [pathname, data] of endpoints.entries()) {
+      if (now > data.resetTime + 60000) {
+        endpoints.delete(pathname);
+      }
+    }
+    if (endpoints.size === 0) {
+      rateLimitStore.delete(ip);
+    }
+  }
+}
+
+function readJsonBody(req, res) {
   return new Promise((resolve) => {
     let body = "";
+    let destroyed = false;
     req.on("data", (chunk) => {
       body += chunk;
       if (body.length > 1_000_000) {
+        destroyed = true;
+        res.writeHead(413, { "Content-Type": "text/plain; charset=utf-8", ...SECURITY_HEADERS });
+        res.end("Payload Too Large");
         req.destroy();
       }
     });
     req.on("end", () => {
+      if (destroyed) {
+        return;
+      }
       try {
         resolve(body ? JSON.parse(body) : {});
       } catch {
         resolve(null);
       }
     });
-    req.on("error", () => resolve(null));
+    req.on("error", () => {
+      if (!destroyed) {
+        resolve(null);
+      }
+    });
   });
 }
 
 function sendJson(res, status, payload) {
-  res.writeHead(status, { "Content-Type": "application/json; charset=utf-8" });
-  res.end(JSON.stringify(payload));
+  const body = JSON.stringify(payload);
+  res.writeHead(status, {
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": Buffer.byteLength(body),
+    ...SECURITY_HEADERS,
+  });
+  res.end(body);
 }
 
 function sendText(res, status, contentType, payload) {
-  res.writeHead(status, { "Content-Type": contentType });
+  res.writeHead(status, {
+    "Content-Type": contentType,
+    "Content-Length": Buffer.byteLength(payload),
+    ...SECURITY_HEADERS,
+  });
   res.end(payload);
 }
 
@@ -233,7 +309,21 @@ function requestBaseUrl(req) {
   return `${proto}://${host}`;
 }
 
+function rotateTelemetryIfNeeded() {
+  if (!fs.existsSync(TELEMETRY_FILE)) {
+    return;
+  }
+  const stats = fs.statSync(TELEMETRY_FILE);
+  if (stats.size >= TELEMETRY_MAX_SIZE) {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const rotatedFile = TELEMETRY_FILE.replace(".ndjson", `.${timestamp}.ndjson`);
+    fs.renameSync(TELEMETRY_FILE, rotatedFile);
+    console.log(`[info] Rotated telemetry file to ${path.basename(rotatedFile)}`);
+  }
+}
+
 function appendTelemetry(record) {
+  rotateTelemetryIfNeeded();
   fs.appendFileSync(TELEMETRY_FILE, `${JSON.stringify(record)}\n`);
 }
 
@@ -248,15 +338,14 @@ function getHeaderValue(req, name) {
   return "";
 }
 
-function hasAdminAccess(req, requestUrl) {
+function hasAdminAccess(req) {
   if (!ADMIN_TOKEN) {
     return true;
   }
-  const queryToken = requestUrl.searchParams.get("token") || "";
   const headerToken = getHeaderValue(req, "x-admin-token");
   const authHeader = getHeaderValue(req, "authorization");
   const bearerToken = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length).trim() : "";
-  return queryToken === ADMIN_TOKEN || headerToken === ADMIN_TOKEN || bearerToken === ADMIN_TOKEN;
+  return headerToken === ADMIN_TOKEN || bearerToken === ADMIN_TOKEN;
 }
 
 function parseAdminDays(requestUrl) {
@@ -455,8 +544,7 @@ function buildTelemetrySummary(days) {
   };
 }
 
-function renderAdminDashboard(summary, tokenValue) {
-  const tokenInput = tokenValue ? `<input type="hidden" name="token" value="${escapeHtml(tokenValue)}">` : "";
+function renderAdminDashboard(summary) {
   const dailyRows = summary.daily.length > 0
     ? summary.daily.map((day) => (
       `<tr>`
@@ -548,12 +636,12 @@ function renderAdminDashboard(summary, tokenValue) {
     <p>Telemetry summary from <code>${escapeHtml(summary.stats.sourceFile)}</code>. Last update: ${escapeHtml(new Date(summary.generatedAt).toISOString())}</p>
     <section class="card">
       <form method="GET" action="/admin">
-        ${tokenInput}
         <label for="days">Period (days, max ${ADMIN_MAX_DAYS})</label><br>
         <input id="days" name="days" type="number" min="1" max="${ADMIN_MAX_DAYS}" value="${summary.days}">
         <button type="submit">Refresh</button>
       </form>
       <p class="muted">Win rate = wins / finished games. Setup usage = setup-started games / all game starts.</p>
+      <p class="muted">Note: Use x-admin-token header or Authorization: Bearer header to access this page when ADMIN_TOKEN is set.</p>
     </section>
     <section class="card grid">
       <div class="metric">Finished games<strong>${summary.totals.gamesFinished}</strong></div>
@@ -592,13 +680,26 @@ const sessions = new Map();
 const server = http.createServer(async (req, res) => {
   const requestUrl = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
   const pathname = requestUrl.pathname;
+  const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
+
+  // HTTPS redirect in production
+  if (SITE_URL && SITE_URL.startsWith("https://") && req.headers["x-forwarded-proto"] !== "https") {
+    res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
+    return res.end();
+  }
+
+  // Rate limiting check for specific endpoints
+  const rateLimitedPaths = ["/api/session/start", "/api/leaderboard/submit", "/api/telemetry/event", "/admin", "/api/admin/telemetry-summary"];
+  if (rateLimitedPaths.includes(pathname) && !checkRateLimit(clientIp, pathname)) {
+    return sendJson(res, 429, { ok: false, error: "too_many_requests" });
+  }
 
   if (pathname === "/api/health" && req.method === "GET") {
     return sendJson(res, 200, { ok: true });
   }
 
   if (pathname === "/api/admin/telemetry-summary" && req.method === "GET") {
-    if (!hasAdminAccess(req, requestUrl)) {
+    if (!hasAdminAccess(req)) {
       return sendJson(res, 401, { ok: false, error: "unauthorized" });
     }
     const days = parseAdminDays(requestUrl);
@@ -607,16 +708,17 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (pathname === "/admin" && req.method === "GET") {
-    if (!hasAdminAccess(req, requestUrl)) {
-      return sendText(res, 401, "text/plain; charset=utf-8", "Unauthorized. Provide ?token=... or x-admin-token header.");
+    if (!hasAdminAccess(req)) {
+      return sendText(res, 401, "text/plain; charset=utf-8", "Unauthorized. Provide x-admin-token header or Authorization: Bearer <token>.");
     }
     const days = parseAdminDays(requestUrl);
     const summary = buildTelemetrySummary(days);
-    const tokenValue = requestUrl.searchParams.get("token") || "";
-    const html = renderAdminDashboard(summary, tokenValue);
+    const html = renderAdminDashboard(summary);
     res.writeHead(200, {
       "Content-Type": "text/html; charset=utf-8",
       "Cache-Control": "no-store",
+      "Content-Length": Buffer.byteLength(html),
+      ...SECURITY_HEADERS,
     });
     res.end(html);
     return;
@@ -629,7 +731,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (pathname === "/api/session/start" && req.method === "POST") {
-    const body = await readJsonBody(req);
+    const body = await readJsonBody(req, res);
     if (!body || typeof body !== "object") {
       return sendJson(res, 400, { error: "invalid_json" });
     }
@@ -659,7 +761,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (pathname === "/api/leaderboard/submit" && req.method === "POST") {
-    const body = await readJsonBody(req);
+    const body = await readJsonBody(req, res);
     if (!body || typeof body !== "object") {
       return sendJson(res, 400, { accepted: false, reason: "invalid_json" });
     }
@@ -724,7 +826,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     const score = computeLeaderboardScore(result, difficulty, elapsedMs, hintsUsed, timedOut);
-    const isQualified = leaderboard.length < LEADERBOARD_LIMIT || score > leaderboard[Math.min(leaderboard.length, LEADERBOARD_LIMIT) - 1].score;
+    const isQualified = leaderboard.length < LEADERBOARD_LIMIT || score > leaderboard[LEADERBOARD_LIMIT - 1].score;
     if (!isQualified) {
       session.finalized = true;
       return sendJson(res, 200, { accepted: false, reason: "not_qualified", leaderboard: leaderboard.slice(0, LEADERBOARD_LIMIT) });
@@ -769,7 +871,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (pathname === "/api/telemetry/event" && req.method === "POST") {
-    const body = await readJsonBody(req);
+    const body = await readJsonBody(req, res);
     if (!body || typeof body !== "object") {
       return sendJson(res, 400, { ok: false, error: "invalid_json" });
     }
@@ -822,9 +924,19 @@ const server = http.createServer(async (req, res) => {
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME[ext] || "application/octet-stream";
   const data = fs.readFileSync(filePath);
-  res.writeHead(200, { "Content-Type": contentType });
+  res.writeHead(200, {
+    "Content-Type": contentType,
+    "Content-Length": data.length,
+    ...SECURITY_HEADERS,
+  });
   res.end(data);
 });
+
+// Periodic cleanup of rate limit store and expired sessions
+setInterval(() => {
+  pruneRateLimitStore();
+  pruneExpiredSessions(sessions);
+}, 60000); // Every minute
 
 server.listen(PORT, () => {
   console.log(`Checkers Studio server listening on http://localhost:${PORT}`);
